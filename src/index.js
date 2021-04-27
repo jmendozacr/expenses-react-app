@@ -39,10 +39,10 @@ export const Index = () => {
                         <Route path="/edit/:id">
                             <EditExpenses/>
                         </Route>
-                        <Route path="/expenses-by-category">
+                        <Route path="/categories">
                             <ExpensesByCategory/>
                         </Route>
-                        <Route path="/expenses-list">
+                        <Route path="/expenses">
                             <ExpensesList/>
                         </Route>
                         <Route exact={true} path="/">
