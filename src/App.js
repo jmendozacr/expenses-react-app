@@ -7,14 +7,14 @@ const App = () => {
     return (
         <>
             <Helmet>
-                <title>Add expenses</title>
+                <title>Add Expenses</title>
             </Helmet>
             <Header>
                 <HeaderContainer>
                     <Title>Add Expense</Title>
                     <ButtonContainer>
                         <Button to="/categories">Categories</Button>
-                        <Button to="expenses">Expenses List</Button>
+                        <Button to="expenses">Expenses</Button>
                         <Button>X</Button>
                     </ButtonContainer>
                 </HeaderContainer>
