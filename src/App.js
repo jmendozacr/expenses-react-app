@@ -1,8 +1,25 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
+import  { Header, HeaderContainer, Title, ButtonContainer } from './components/commons/Header';
+import Button from './components/commons/Button';
 
 const App = () => {
     return (
-        <div>my app</div>
+        <>
+            <Helmet>
+                <title>Add expenses</title>
+            </Helmet>
+            <Header>
+                <HeaderContainer>
+                    <Title>Add Expense</Title>
+                    <ButtonContainer>
+                        <Button to="/categories">Categories</Button>
+                        <Button to="expenses">Expenses List</Button>
+                        <Button>X</Button>
+                    </ButtonContainer>
+                </HeaderContainer>
+            </Header>
+        </>
     );
 }
 
