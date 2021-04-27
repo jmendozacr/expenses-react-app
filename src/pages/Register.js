@@ -1,10 +1,10 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import  { Header, HeaderContainer, Title } from './../components/commons/Header';
 import Button from './../components/commons/Button';
 import { Form, Input, ButtonContainer } from './../components/commons/ElementsForm';
-import { ReactComponent as SvgLogin } from './../images/registro.svg'
-import styled from 'styled-components';
+import { ReactComponent as SvgLogin } from './../images/registro.svg';
 
 const Svg = styled(SvgLogin)`
     width: 100%;
