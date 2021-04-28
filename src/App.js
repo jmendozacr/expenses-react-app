@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import  { Header, HeaderContainer, Title, ButtonContainer } from './components/commons/Header';
 import Button from './components/commons/Button';
+import ButtonLogout from './components/ButtonLogout';
 
 const App = () => {
     return (
@@ -15,7 +16,7 @@ const App = () => {
                     <ButtonContainer>
                         <Button to="/categories">Categories</Button>
                         <Button to="/expenses">Expenses</Button>
-                        <Button to="/">X</Button>
+                        <ButtonLogout/>
                     </ButtonContainer>
                 </HeaderContainer>
             </Header>
