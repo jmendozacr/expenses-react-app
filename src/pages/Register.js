@@ -41,11 +41,11 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const regex = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/;
         setAlertState(false);
         setAlert({});
 
-        const exReg = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/;
-        if( !exReg.test(email) ) {
+        if( !regex.test(email) ) {
             setAlertState(true);
             setAlert({
                 type: 'error',
