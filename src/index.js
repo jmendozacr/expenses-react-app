@@ -13,6 +13,7 @@ import ExpensesByCategory from './pages/ExpensesByCategory';
 import ExpensesList from './pages/ExpensesList';
 import favicon from './images/logo.png'
 import Background from './components/commons/Background';
+import { AuthProvider } from './context/authContext';
 
 WebFont.load({
     // Work+Sans:wght@400;500;700
@@ -27,30 +28,32 @@ export const Index = () => {
             <Helmet>
                 <link rel="shortcut icon" href={favicon} type="image/x-icon"/>
             </Helmet>
-            <BrowserRouter>
-                <Switch>
-                    <Container>
-                        <Route path="/login">
-                            <Login/>
-                        </Route>
-                        <Route path="/register">
-                            <Register/>
-                        </Route>
-                        <Route path="/edit/:id">
-                            <EditExpenses/>
-                        </Route>
-                        <Route path="/categories">
-                            <ExpensesByCategory/>
-                        </Route>
-                        <Route path="/expenses">
-                            <ExpensesList/>
-                        </Route>
-                        <Route exact={true} path="/">
-                            <App />
-                        </Route>   
-                    </Container>
-                </Switch>
-            </BrowserRouter>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Switch>
+                        <Container>
+                            <Route path="/login">
+                                <Login/>
+                            </Route>
+                            <Route path="/register">
+                                <Register/>
+                            </Route>
+                            <Route path="/edit/:id">
+                                <EditExpenses/>
+                            </Route>
+                            <Route path="/categories">
+                                <ExpensesByCategory/>
+                            </Route>
+                            <Route path="/expenses">
+                                <ExpensesList/>
+                            </Route>
+                            <Route exact={true} path="/">
+                                <App />
+                            </Route>   
+                        </Container>
+                    </Switch>
+                </BrowserRouter>
+            </AuthProvider>
             <Background/>
         </>
     );
