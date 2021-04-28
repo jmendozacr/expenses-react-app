@@ -66,7 +66,7 @@ const Login = () => {
             <Header>
                 <HeaderContainer>
                     <Title>
-                        Expenses by category page
+                        Login
                     </Title>
                     <div>
                         <Button to="/register">Register</Button>

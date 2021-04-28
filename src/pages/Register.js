@@ -91,7 +91,7 @@ const Register = () => {
             <Header>
                 <HeaderContainer>
                     <Title>
-                        Expenses by category page
+                        Register
                     </Title>
                     <div>
                         <Button to="/login">Login</Button>
