@@ -72,11 +72,6 @@ const Register = () => {
 
         try {
             await auth.createUserWithEmailAndPassword(email, password);
-            setAlertState(true);
-            setAlert({
-                type: 'success',
-                message: "message"
-            });
             history.push('/');
         } catch (error) {
             let message = error.message;
@@ -90,7 +85,7 @@ const Register = () => {
 
     return (
         <>
-             <Helmet>
+            <Helmet>
                 <title>Register</title>
             </Helmet>
             <Header>
@@ -132,7 +127,12 @@ const Register = () => {
                     <Button type="submit" as="button" primary>Register</Button>
                 </ButtonContainer>
             </Form>
-            <Alert type={alert.type} message={alert.message} alertState={alertState} setAlertState={setAlertState}/>
+            <Alert 
+                type={alert.type} 
+                message={alert.message} 
+                alertState={alertState} 
+                setAlertState={setAlertState}
+            />
         </>
     );
 }
