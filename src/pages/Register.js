@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
+import { auth } from '../firebase/firebaseConfig';
 import { Helmet } from 'react-helmet';
 import  { Header, HeaderContainer, Title } from './../components/commons/Header';
 import Button from './../components/commons/Button';
 import { Form, Input, ButtonContainer } from './../components/commons/ElementsForm';
 import { ReactComponent as SvgLogin } from './../images/registro.svg';
-import { auth } from '../firebase/firebaseConfig';
+import Alert from '../components/commons/Alert';
 
 const Svg = styled(SvgLogin)`
     width: 100%;
@@ -19,6 +20,8 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
+    const [alertState, setAlertState] = useState(false);
+    const [alert, setAlert] = useState({});
 
     const handleChange = (e) => {
         switch (e.target.name) {
@@ -38,29 +41,50 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setAlertState(false);
+        setAlert({});
 
         const exReg = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/;
         if( !exReg.test(email) ) {
-            console.log("error");
+            setAlertState(true);
+            setAlert({
+                type: 'error',
+                message: 'Please enter a valid email.'
+            });
             return;
         }
         if(email === '' || password === '' || password2 === '') {
-            console.log("there is a empty space");
+            setAlertState(true);
+            setAlert({
+                type: 'error',
+                message: 'There is an empty field'
+            });
             return;
         }
         if(password !== password2) {
-            console.log("the password is not the same");
+            setAlertState(true);
+            setAlert({
+                type: 'error',
+                message: 'Passwords are not the same.'
+            });
             return;
         }
 
         try {
             await auth.createUserWithEmailAndPassword(email, password);
-            console.log("user was registered");
+            setAlertState(true);
+            setAlert({
+                type: 'success',
+                message: "message"
+            });
             history.push('/');
         } catch (error) {
             let message = error.message;
-
-            return console.log(message);
+            setAlertState(true);
+            setAlert({
+                type: 'error',
+                message: message
+            });
         }
     }
 
@@ -82,7 +106,7 @@ const Register = () => {
             <Form onSubmit={handleSubmit}>
                 <Svg/>
                 <Input 
-                    type="email"
+                    type="text"
                     name="email"
                     placeholder="email"
                     value={email}
@@ -108,6 +132,7 @@ const Register = () => {
                     <Button type="submit" as="button" primary>Register</Button>
                 </ButtonContainer>
             </Form>
+            <Alert type={alert.type} message={alert.message} alertState={alertState} setAlertState={setAlertState}/>
         </>
     );
 }
