@@ -19,7 +19,7 @@ const AuthProvider = ({children}) => {
             setLoading(false);
         });
 
-        return cancelSubcription
+        return cancelSubcription;
     }, []);
 
     return (
