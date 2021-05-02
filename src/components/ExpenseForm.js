@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { FilterContainer, Form, Input, LargeInput, ButtonContainer } from './../components/commons/ElementsForm';
 import Button from './commons/Button';
 import { ReactComponent as PlusIcon } from './../images/plus.svg'
+import CategorySelect from './CategorySelect';
 
 const ExpenseForm = () => {
     const [description, setDescription] = useState("");
     const [quantity, setQuantity] = useState("");
-
+    const [selectedOption, setSelectedOption] = useState("home");
 
     const onSubmitExpense = (e) => {
         e.preventDefault();
@@ -16,7 +17,10 @@ const ExpenseForm = () => {
     return (
         <Form onSubmit={onSubmitExpense}>
             <FilterContainer>
-                <p>select</p>
+                <CategorySelect
+                    selectedOption={selectedOption}
+                    setSelectedOption={setSelectedOption}
+                />
                 <p>date picker</p>
             </FilterContainer>
             <div>
