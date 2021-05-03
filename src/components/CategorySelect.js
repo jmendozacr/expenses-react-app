@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import theme from '../theme/theme';
 import { ReactComponent as DownIcon } from './../images/down.svg';
 import { categories } from './../utils/staticData';
-
+import CategoryIcon from './commons/CategoryIcons';
 
 const CategorySelect = ({ selectedOption, setSelectedOption }) => {
     const [showSelect, setShowSelect] = useState(false);
@@ -23,9 +23,10 @@ const CategorySelect = ({ selectedOption, setSelectedOption }) => {
                             return (
                                 <Option 
                                     key={item.id}
-                                    data-value={item.id}
+                                    data-value={item.text}
                                     onClick={selectHandler}
                                 >
+                                    <CategoryIcon name={item.id}/>
                                     {item.text}
                                 </Option>
                             )
