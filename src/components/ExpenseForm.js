@@ -1,27 +1,40 @@
 import React, { useState } from 'react';
+import { getUnixTime } from 'date-fns';
+import { fromUnixTime } from 'date-fns';
 import { FilterContainer, Form, Input, LargeInput, ButtonContainer } from './../components/commons/ElementsForm';
 import Button from './commons/Button';
 import { ReactComponent as PlusIcon } from './../images/plus.svg'
 import CategorySelect from './CategorySelect';
 import DatePicker from './DatePicker';
+import addExpense from '../firebase/addExpense';
+import { useAuth } from '../context/authContext';
 
 const ExpenseForm = () => {
     const [description, setDescription] = useState("");
     const [quantity, setQuantity] = useState("");
-    const [selectedOption, setSelectedOption] = useState("home");
+    const [category, setCategory] = useState("home");
     const [date, setDate] = useState(new Date());
+    const { user } = useAuth();
 
     const onSubmitExpense = (e) => {
         e.preventDefault();
-        console.log("Submit");
+        let quantityFixed = parseFloat(quantity).toFixed(2);
+
+        addExpense({
+            date: getUnixTime(date),
+            quantity: quantityFixed,
+            description,
+            category,
+            uidUser: user.uid
+        });
     }
 
     return (
         <Form onSubmit={onSubmitExpense}>
             <FilterContainer>
                 <CategorySelect
-                    selectedOption={selectedOption}
-                    setSelectedOption={setSelectedOption}
+                    category={category}
+                    setCategory={setCategory}
                 />
                 <DatePicker
                     date={date}
