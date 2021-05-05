@@ -5,16 +5,16 @@ import { ReactComponent as DownIcon } from './../images/down.svg';
 import { categories } from './../utils/staticData';
 import CategoryIcon from './commons/CategoryIcons';
 
-const CategorySelect = ({ selectedOption, setSelectedOption }) => {
+const CategorySelect = ({ category, setCategory }) => {
     const [showSelect, setShowSelect] = useState(false);
 
     const selectHandler = (e) => {
-        setSelectedOption(e.currentTarget.dataset.value);
+        setCategory(e.currentTarget.dataset.value);
     }
 
     return (
         <SelectContainer onClick={() => setShowSelect(!showSelect)}>
-            <SelectedOption>{selectedOption} <DownIcon/></SelectedOption>
+            <SelectedOption>{category} <DownIcon/></SelectedOption>
             {
                 showSelect &&
                 <Options>
