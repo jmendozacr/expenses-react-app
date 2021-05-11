@@ -8,6 +8,7 @@ import CategorySelect from './CategorySelect';
 import DatePicker from './DatePicker';
 import addExpense from '../firebase/addExpense';
 import { useAuth } from '../context/authContext';
+import Alert from './commons/Alert';
 
 const ExpenseForm = () => {
     const [description, setDescription] = useState("");
@@ -15,18 +16,44 @@ const ExpenseForm = () => {
     const [category, setCategory] = useState("home");
     const [date, setDate] = useState(new Date());
     const { user } = useAuth();
+    const [alertState, setAlertState] = useState(false);
+    const [alert, setAlert] = useState({});
+
 
     const onSubmitExpense = (e) => {
         e.preventDefault();
-        let quantityFixed = parseFloat(quantity).toFixed(2);
+        let quantityFloat = parseFloat(quantity).toFixed(2);
 
-        addExpense({
-            date: getUnixTime(date),
-            quantity: quantityFixed,
-            description,
-            category,
-            uidUser: user.uid
-        });
+        if(description !== '' && quantity !== ''){
+            if(quantityFloat) {
+                addExpense({
+                    date: getUnixTime(date),
+                    quantity: quantityFloat,
+                    description,
+                    category,
+                    uidUser: user.uid
+                }).then(()=> {
+                    setDescription("");
+                    setQuantity("");
+                    setDate(new Date());
+                    setCategory("home");
+                    setAlertState(true);
+                    setAlert({ type: 'success', message: "The expense was added correctly."});
+                }).catch((error) => {
+                    setAlertState(true);
+                    setAlert({ type: 'error', message: error})
+                })
+            } else {
+                setAlertState(true);
+                setAlert({ type: 'error', message: "The entered value is not correct."
+                });
+            }
+        }
+        else {
+            setAlertState(true);
+            setAlert({ type: 'error', message: "Please fill all the fields."
+            });
+        }
     }
 
     return (
@@ -64,6 +91,7 @@ const ExpenseForm = () => {
                     Add Expense <PlusIcon/>
                 </Button>
             </ButtonContainer>
+            <Alert type={alert.type} message={alert.message} alertState={alertState} setAlertState={setAlertState}/>
         </Form>
     );
 }
