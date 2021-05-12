@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getUnixTime } from 'date-fns';
-import { fromUnixTime } from 'date-fns';
+// import { fromUnixTime } from 'date-fns';
 import { FilterContainer, Form, Input, LargeInput, ButtonContainer } from './../components/commons/ElementsForm';
 import Button from './commons/Button';
 import { ReactComponent as PlusIcon } from './../images/plus.svg'
@@ -42,7 +42,7 @@ const ExpenseForm = () => {
                 }).catch((error) => {
                     setAlertState(true);
                     setAlert({ type: 'error', message: error})
-                })
+                });
             } else {
                 setAlertState(true);
                 setAlert({ type: 'error', message: "The entered value is not correct."
