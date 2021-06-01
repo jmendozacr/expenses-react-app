@@ -6,8 +6,6 @@ import useGetExpenses from '../hooks/useGetExpenses';
 import  { Header, Title } from './../components/commons/Header';
 import { 	List,
             ElementList,
-            CategoryList,
-            ElementCategoryList,
             Category,
             Description,
             Value,
@@ -25,10 +23,27 @@ import { ReactComponent as EditIcon } from './../images/editar.svg';
 import { ReactComponent as DeleteIcon } from './../images/borrar.svg';
 import { Link } from 'react-router-dom';
 import Button from './../components/commons/Button';
+import { format, fromUnixTime } from 'date-fns';
 
 const ExpensesList = () => {
-    const [expenses] = useGetExpenses();
-    console.log('expenses', expenses);
+    const [expenses, getMoreExpenses, loadMoreValidation] = useGetExpenses();
+
+    const formatDate = date => {
+        return format(fromUnixTime(date), 'MMM dd yyyy');
+    }
+
+    const equalDate = (expensesList, index, expense) => {
+        if(index !== 0) {
+            const currentDate = formatDate(expense.date);
+            const previewExpenseDate = formatDate(expensesList[index-1].date);
+
+            if(currentDate === previewExpenseDate) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
     return (
         <>
@@ -47,38 +62,44 @@ const ExpensesList = () => {
                 {
                     expenses.map((item, i) => {
                         return(
-                            <ElementList key={i}>
-                                <Category>
-                                    <CategoryIcon name={item.category.toLowerCase()}/>
-                                    {item.category}
-                                </Category>
+                            <div key={i}>
+                                { !equalDate(expenses, i, item) && <Date>{ formatDate(item.date) }</Date> }
+                                <ElementList>
+                                    <Category>
+                                        <CategoryIcon name={item.category.toLowerCase()}/>
+                                        {item.category}
+                                    </Category>
 
-                                <Description>
-                                    {item.description}
-                                </Description>
+                                    <Description>
+                                        {item.description}
+                                    </Description>
 
-                                <Value>
-                                    {convertToCurrency(item.quantity)}
-                                </Value>
+                                    <Value>
+                                        {convertToCurrency(item.quantity)}
+                                    </Value>
 
-                                <ButtonContainer>
-                                    <ButtonAction as={Link} to={`/edit/${item.id}`}>
-                                        <EditIcon/>
-                                    </ButtonAction>
-                                    <ButtonAction>
-                                        <DeleteIcon/>
-                                    </ButtonAction>
-                                </ButtonContainer>
-                            </ElementList>
+                                    <ButtonContainer>
+                                        <ButtonAction as={Link} to={`/edit/${item.id}`}>
+                                            <EditIcon/>
+                                        </ButtonAction>
+                                        <ButtonAction>
+                                            <DeleteIcon/>
+                                        </ButtonAction>
+                                    </ButtonContainer>
+                                </ElementList>
+                            </div>
                         )
                     })
                 }
 
-                <ContainerCentralButton>
-                    <ButtonLoadMore>
-                        Load More
-                    </ButtonLoadMore>
-                </ContainerCentralButton>
+                {
+                    loadMoreValidation &&
+                    <ContainerCentralButton>
+                        <ButtonLoadMore onClick={() => getMoreExpenses()}>
+                            Load More
+                        </ButtonLoadMore>
+                    </ContainerCentralButton>
+                }
 
                 {
                     expenses.length === 0 &&
