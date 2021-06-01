@@ -23,7 +23,7 @@ const CategorySelect = ({ category, setCategory }) => {
                             return (
                                 <Option 
                                     key={item.id}
-                                    data-value={item.text}
+                                    data-value={item.id}
                                     onClick={selectHandler}
                                 >
                                     <CategoryIcon name={item.id}/>
