@@ -9,7 +9,6 @@ const useGetExpenses = () => {
     const [loadMoreValidation, setLoadMoreValidation] = useState(false);
 
     const getMoreExpenses = () => {
-
         db.collection('expenses')
         .where('uidUser', '==', user.uid)
         .orderBy('date', 'desc')
