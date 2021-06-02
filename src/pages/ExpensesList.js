@@ -24,6 +24,7 @@ import { ReactComponent as DeleteIcon } from './../images/borrar.svg';
 import { Link } from 'react-router-dom';
 import Button from './../components/commons/Button';
 import { format, fromUnixTime } from 'date-fns';
+import removeExpense from '../firebase/removeExpense';
 
 const ExpensesList = () => {
     const [expenses, getMoreExpenses, loadMoreValidation] = useGetExpenses();
@@ -82,7 +83,7 @@ const ExpensesList = () => {
                                         <ButtonAction as={Link} to={`/edit/${item.id}`}>
                                             <EditIcon/>
                                         </ButtonAction>
-                                        <ButtonAction>
+                                        <ButtonAction onClick={() => removeExpense(item.id)}>
                                             <DeleteIcon/>
                                         </ButtonAction>
                                     </ButtonContainer>
