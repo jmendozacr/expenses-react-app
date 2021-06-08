@@ -3,7 +3,6 @@ import { db } from "../firebase/firebaseConfig";
 import { startOfMonth, endOfMonth, getUnixTime } from 'date-fns';
 import { useAuth } from "../context/authContext";
 
-
 const useGetExpensesByMonth = () => {
     const [expenses, setExpenses] = useState([]);
     const { user } = useAuth();
@@ -13,7 +12,7 @@ const useGetExpensesByMonth = () => {
         const endOfMonthData = getUnixTime(endOfMonth(new Date()));
 
         if(user) {
-            const unsuscribe = db.collection("expenses")
+            const unsuscribe = db.collection('expenses')
                 .orderBy('date', 'desc')
                 .where('date', '>=', startOfMonthData)
                 .where('date', '<=', endOfMonthData)
