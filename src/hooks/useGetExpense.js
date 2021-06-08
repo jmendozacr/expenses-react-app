@@ -17,7 +17,6 @@ const useGetExpense = (id) => {
         })
     }, [history, id])
 
-
     return [expense];
 }
 
