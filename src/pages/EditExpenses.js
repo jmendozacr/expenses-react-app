@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router';
 import BackButton from '../components/commons/BackButton';
@@ -9,9 +9,7 @@ import  { Header, Title } from './../components/commons/Header';
 
 const EditExpenses = () => {
     const { id } = useParams();
-    // console.log('id', id);
     const [expense] = useGetExpense(id);
-    console.log('expense', expense);
 
     return (
         <>
@@ -20,12 +18,12 @@ const EditExpenses = () => {
             </Helmet>
 
             <Header>
-                <BackButton/>
+                <BackButton route="/expenses"/>
                 <Title>
                     Edit Expense
                 </Title>
             </Header>
-            <ExpenseForm/>
+            <ExpenseForm expense={expense}/>
             <TotalBar/>
         </>
     );
