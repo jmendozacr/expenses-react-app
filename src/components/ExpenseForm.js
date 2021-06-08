@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getUnixTime } from 'date-fns';
-// import { fromUnixTime } from 'date-fns';
+import { fromUnixTime } from 'date-fns';
 import { FilterContainer, Form, Input, LargeInput, ButtonContainer } from './../components/commons/ElementsForm';
 import Button from './commons/Button';
 import { ReactComponent as PlusIcon } from './../images/plus.svg'
 import CategorySelect from './CategorySelect';
 import DatePicker from './DatePicker';
 import addExpense from '../firebase/addExpense';
+import editExpense from '../firebase/editExpense';
 import { useAuth } from '../context/authContext';
 import Alert from './commons/Alert';
+import { useHistory } from 'react-router';
 
-const ExpenseForm = () => {
+const ExpenseForm = ({ expense }) => {
     const [description, setDescription] = useState("");
     const [quantity, setQuantity] = useState("");
     const [category, setCategory] = useState("home");
@@ -18,7 +20,20 @@ const ExpenseForm = () => {
     const { user } = useAuth();
     const [alertState, setAlertState] = useState(false);
     const [alert, setAlert] = useState({});
+    const history = useHistory();
 
+    useEffect(() => {
+        if(expense) {
+            if(expense.data().uidUser === user.uid) {
+                setCategory(expense.data().category);
+                setDate(fromUnixTime(expense.data().date));
+                setDescription(expense.data().description);
+                setQuantity(parseFloat(expense.data().quantity).toFixed(2));
+            } else {
+                history.push("/expenses");
+            }
+        }
+    }, [expense, user, history])
 
     const onSubmitExpense = (e) => {
         e.preventDefault();
@@ -26,33 +41,46 @@ const ExpenseForm = () => {
 
         if(description !== '' && quantity !== ''){
             if(quantityFloat) {
-                addExpense({
-                    date: getUnixTime(date),
-                    quantity: quantityFloat,
-                    description,
-                    category,
-                    uidUser: user.uid
-                }).then(()=> {
-                    setDescription("");
-                    setQuantity("");
-                    setDate(new Date());
-                    setCategory("home");
-                    setAlertState(true);
-                    setAlert({ type: 'success', message: "The expense was added correctly."});
-                }).catch((error) => {
-                    setAlertState(true);
-                    setAlert({ type: 'error', message: error})
-                });
+                if(expense) {
+                    console.log("if expense", expense);
+                    editExpense({
+                        id: expense.id,
+                        date: getUnixTime(date),
+                        description,
+                        quantity,
+                        category,
+                    }).then(() => {
+                        history.push("/expenses");
+                    }).catch((error) => {
+                        console.log('error', error);
+                    })
+                } else {
+                    addExpense({
+                        date: getUnixTime(date),
+                        quantity: quantityFloat,
+                        description,
+                        category,
+                        uidUser: user.uid
+                    }).then(()=> {
+                        setDescription("");
+                        setQuantity("");
+                        setDate(new Date());
+                        setCategory("home");
+                        setAlertState(true);
+                        setAlert({ type: 'success', message: "The expense was added correctly."});
+                    }).catch((error) => {
+                        setAlertState(true);
+                        setAlert({ type: 'error', message: error})
+                    });
+                }
             } else {
                 setAlertState(true);
-                setAlert({ type: 'error', message: "The entered value is not correct."
-                });
+                setAlert({ type: 'error', message: "The entered value is not correct." });
             }
         }
         else {
             setAlertState(true);
-            setAlert({ type: 'error', message: "Please fill all the fields."
-            });
+            setAlert({ type: 'error', message: "Please fill all the fields." });
         }
     }
 
@@ -88,7 +116,7 @@ const ExpenseForm = () => {
             </div>
             <ButtonContainer>
                 <Button as="button" primary withIcon type="submit">
-                    Add Expense <PlusIcon/>
+                    {!expense ? "Add Expense" : "Edit Expense"} <PlusIcon/>
                 </Button>
             </ButtonContainer>
             <Alert type={alert.type} message={alert.message} alertState={alertState} setAlertState={setAlertState}/>
