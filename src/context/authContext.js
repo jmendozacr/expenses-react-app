@@ -5,9 +5,7 @@ import { auth } from "../firebase/firebaseConfig";
 const AuthContext = createContext();
 
 // custom hook to get the user context
-const useAuth = () => {
-    return useContext(AuthContext);
-}
+const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState();
