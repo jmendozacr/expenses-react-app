@@ -15,6 +15,7 @@ import favicon from './images/logo.png'
 import Background from './components/commons/Background';
 import { AuthProvider } from './context/authContext';
 import PrivateRoute from './components/PrivateRoute';
+import { TotalExpensesProvider } from './context/totalExpensesByMonthContext';
 
 WebFont.load({
     // Work+Sans:wght@400;500;700
@@ -30,27 +31,29 @@ export const Index = () => {
                 <link rel="shortcut icon" href={favicon} type="image/x-icon"/>
             </Helmet>
             <AuthProvider>
-                <BrowserRouter>
-                    <Switch>
-                        <Container>
-                            <Route path="/login" component={Login}/>
-                            <Route path="/register" component={Register}/>
+                <TotalExpensesProvider>
+                    <BrowserRouter>
+                        <Switch>
+                            <Container>
+                                <Route path="/login" component={Login}/>
+                                <Route path="/register" component={Register}/>
 
-                            <PrivateRoute path="/edit/:id">
-                                <EditExpenses/>
-                            </PrivateRoute>
-                            <PrivateRoute path="/categories">
-                                <ExpensesByCategory/>
-                            </PrivateRoute>
-                            <PrivateRoute path="/expenses">
-                                <ExpensesList/>
-                            </PrivateRoute>
-                            <PrivateRoute exact={true} path="/">
-                                <App/>
-                            </PrivateRoute>
-                        </Container>
-                    </Switch>
-                </BrowserRouter>
+                                <PrivateRoute path="/edit/:id">
+                                    <EditExpenses/>
+                                </PrivateRoute>
+                                <PrivateRoute path="/categories">
+                                    <ExpensesByCategory/>
+                                </PrivateRoute>
+                                <PrivateRoute path="/expenses">
+                                    <ExpensesList/>
+                                </PrivateRoute>
+                                <PrivateRoute exact={true} path="/">
+                                    <App/>
+                                </PrivateRoute>
+                            </Container>
+                        </Switch>
+                    </BrowserRouter>
+                </TotalExpensesProvider>
             </AuthProvider>
             <Background/>
         </>
