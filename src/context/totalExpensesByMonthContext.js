@@ -10,8 +10,6 @@ const TotalExpensesProvider = ({children}) => {
     useEffect(() => {
         let reduceTotal = expenses.reduce((acc, cur) => acc + cur.quantity, 0)
         setTotal(reduceTotal);
-
-        console.log('reduceTotal', reduceTotal);
     }, [expenses]);
 
     return (
