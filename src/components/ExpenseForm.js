@@ -42,7 +42,6 @@ const ExpenseForm = ({ expense }) => {
         if(description !== '' && quantity !== ''){
             if(quantityFloat) {
                 if(expense) {
-                    console.log("if expense", expense);
                     editExpense({
                         id: expense.id,
                         date: getUnixTime(date),
